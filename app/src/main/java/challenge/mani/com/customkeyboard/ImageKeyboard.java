@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.inputmethodservice.InputMethodService;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RawRes;
@@ -16,10 +17,15 @@ import android.support.v13.view.inputmethod.InputConnectionCompat;
 import android.support.v13.view.inputmethod.InputContentInfoCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputBinding;
 import android.view.inputmethod.InputConnection;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -205,6 +211,45 @@ public class ImageKeyboard extends InputMethodService {
     // TODO: Avoid file I/O in the main thread.
     final File imagesDir = new File(getFilesDir(), "images");
     imagesDir.mkdirs();
-    mGifFile = getFileForResource(this, R.raw.diwali_one, imagesDir, "image.gif");
+    mGifFile = getFileForResource(this, R.raw.diwali_one, imagesDir, "image.png");
+  }
+
+  @Override
+  public View onCreateInputView() {
+   /* mGifButton = new Button(this);
+    mGifButton.setText("Insert PNG");
+    mGifButton.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        ImageKeyboard.this.doCommitContent("A waving flag", MIME_TYPE_PNG, mGifFile);
+      }
+    });
+
+    final LinearLayout layout = new LinearLayout(this);
+    layout.setOrientation(LinearLayout.VERTICAL);
+    layout.addView(mGifButton);
+
+    return layout;*/
+
+    View rootView = View.inflate(getApplicationContext(), R.layout.fragment_main,  null);
+
+
+      int[] imageId = new int[] {
+          R.drawable.gm_one, R.drawable.good_morn_two
+      };
+
+
+    CustomGrid adapter = new CustomGrid(getApplicationContext(), imageId);
+    GridView grid=(GridView)rootView.findViewById(R.id.simpleGridView);
+    grid.setAdapter(adapter);
+    grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view,
+          int position, long id) {
+        ImageKeyboard.this.doCommitContent("A waving flag", MIME_TYPE_PNG, mGifFile);
+      }
+    });
+
+    return rootView;
   }
 }
