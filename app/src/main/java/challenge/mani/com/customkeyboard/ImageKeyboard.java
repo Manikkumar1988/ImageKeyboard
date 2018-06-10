@@ -35,7 +35,7 @@ import java.io.OutputStream;
 public class ImageKeyboard extends InputMethodService {
   private static final String TAG = "ImageKeyboard";
   private static final String MIME_TYPE_PNG = "image/png";
-  private static final String AUTHORITY = "com.example.android.commitcontent.ime.inputcontent";
+  private static final String AUTHORITY = "com.example.myapp.fileprovider";
   private File mGifFile;
   private Button mGifButton;
 
